@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>十六號當舖 | 歲月的餘溫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;600&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #F9F7F2;
+            --color-primary: #8C7851;
+            --color-text: #4A443F;
+            --color-accent: #D4A373;
+            --color-rose: #B8978E;
+            --color-amber: #D9A05B;
+            --color-silver: #94A3B8;
+            --color-chiikawa: #EAB308; /* 象徵 Chiikawa 的向陽黃 */
+            --color-border: #E5E1D8;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Noto Sans TC', sans-serif;
+            letter-spacing: 0.05em;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Noto Serif TC', serif; }
+
+        /* 背景裝飾 */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(#8C7851 0.5px, transparent 0.5px);
+            background-size: 40px 40px;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        .moon-glow {
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(212, 163, 115, 0.05) 0%, rgba(249, 247, 242, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* 容器 */
+        .main-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 40px 100px -20px rgba(140, 120, 81, 0.08);
+        }
+
+        /* 導航切換 */
+        .nav-link {
+            position: relative;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: #A09A93;
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--color-primary);
+        }
+
+        /* 藏品展示卡片 */
+        .exhibit-card {
+            border: 1px solid var(--color-border);
+            padding: 3rem 2rem;
+            position: relative;
+            background: white;
+            overflow: hidden;
+            min-height: 480px;
+        }
+
+        .quote-mark {
+            font-size: 60px;
+            line-height: 1;
+            color: var(--color-primary);
+            opacity: 0.05;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        /* 藏品切換按鈕 */
+        .item-tabs-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .item-tab {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            color: #A09A93;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .item-tab.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(140, 120, 81, 0.05);
+        }
+
+        .hidden-view { display: none; }
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-action {
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            transition: all 0.3s ease;
+        }
+        .btn-action:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-12 px-6">
+
+    <div class="bg-pattern"></div>
+    <div class="moon-glow"></div>
+
+    <!-- 頂部導航 -->
+    <nav class="flex gap-8 mb-16 z-10">
+        <button onclick="switchView('pawn')" id="nav-pawn" class="nav-link active">交付煩惱</button>
+        <button onclick="switchView('exhibit')" id="nav-exhibit" class="nav-link">藏品展覽</button>
+    </nav>
+
+    <main class="main-container w-full max-w-xl rounded-2xl p-8 md:p-12">
+        
+        <!-- 視圖 1: 交付煩惱 -->
+        <div id="view-pawn" class="fade-in">
+            <header class="text-center mb-12">
+                <h1 class="serif text-3xl font-light tracking-[0.3em] text-[#4A443F]">十六號當舖</h1>
+                <p class="text-[9px] uppercase tracking-[0.4em] text-[#8C7851] mt-2">The 16th Sanctuary</p>
+            </header>
+            
+            <div class="space-y-6">
+                <p class="serif text-center text-gray-500 italic">「有些東西，留著是負擔，當掉是解脫。」</p>
+                <div class="py-10 border-y border-[#F0EEE9] text-center">
+                    <p class="text-sm text-gray-400">（此處為您之前的交互功能...）</p>
+                    <button onclick="switchView('exhibit')" class="btn-action mt-6 px-8 py-2 text-xs tracking-widest rounded-full">推門入內</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 視圖 2: 藏品展覽 -->
+        <div id="view-exhibit" class="hidden-view">
+            <header class="mb-8 text-center">
+                <h2 class="serif text-2xl tracking-widest text-[#4A443F]">歲月的餘溫</h2>
+                <div class="w-8 h-[1px] bg-[#B8978E] mx-auto mt-4 mb-6"></div>
+                
+                <!-- 藏品切換選單 -->
+                <div class="item-tabs-container">
+                    <button onclick="showItem(1)" id="tab-1" class="item-tab active">壹號：星夢樂園</button>
+                    <button onclick="showItem(2)" id="tab-2" class="item-tab">貳號：海綿寶寶</button>
+                    <button onclick="showItem(3)" id="tab-3" class="item-tab">參號：第一部電話</button>
+                    <button onclick="showItem(4)" id="tab-4" class="item-tab">肆號：Chiikawa</button>
+                </div>
+            </header>
+
+            <!-- 藏品 1: 星夢樂園 -->
+            <div id="item-1" class="exhibit-card fade-in">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#B8978E] tracking-[0.3em] uppercase">Exhibition No. 01</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">「星夢樂園」遊戲卡及卡簿</h3>
+                        <p class="text-[10px] text-gray-400 tracking-widest">關於十年前的集體回憶</p>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">記錄着十年前小學校園裏一段很真實的熱潮——當時幾乎每個女同學都會喜歡、都會收。</p>
+                        <p class="text-[15px] leading-loose">對我而言，呢本卡簿唔單止係收藏，更似一本<span class="text-[#B8978E]">低調嘅童年日記</span>：一張張卡夾入去嘅同時，也把那段無憂無慮的日子一併保存。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 藏品 2: 海綿寶寶 -->
+            <div id="item-2" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#D9A05B] tracking-[0.3em] uppercase">Exhibition No. 02</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">海綿寶寶公仔</h3>
+                        <p class="text-[10px] text-gray-400 tracking-widest">十五年的沈默守望</p>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">這是五歲那年爸爸送我的玩偶。小時候對它其實沒什麼感覺，就這樣隨手擱在床頭一角。</p>
+                        <p class="text-[15px] leading-loose">沒想到它在那裡一待就是<span class="text-[#D9A05B]">十五年</span>，默默看著我從女孩變成大人。</p>
+                        <p class="text-[15px] leading-loose">對我來說，它不只是一個玩偶，而是陪伴我走了很久很久的<span class="text-[#D9A05B]">家人</span>。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 藏品 3: 第一部智能電話 -->
+            <div id="item-3" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#94A3B8] tracking-[0.3em] uppercase">Exhibition No. 03</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">第一部智能電話</h3>
+                        <p class="text-[10px] text-gray-400 tracking-widest">通往大人世界的入場券</p>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">大概小四的時候我擁有了我人生第一部智能電話，雖然是媽媽不要的「二手」電話，但對於我來說十分珍貴。</p>
+                        <p class="text-[15px] leading-loose">當時身邊的朋友都開始擁有自己的手提電話，我也不禁期盼自己擁有一部手提電話，並<span class="text-[#94A3B8]">模仿大人講電話時的樣子</span>。</p>
+                        <p class="text-[15px] leading-loose">對我來說擁有手提電話是<span class="text-[#94A3B8]">大人的象徵</span>，所以我感到十分驕傲。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 藏品 4: Chiikawa 公仔 -->
+            <div id="item-4" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#EAB308] tracking-[0.3em] uppercase">Exhibition No. 04</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">Chiikawa 公仔</h3>
+                        <p class="text-[10px] text-gray-400 tracking-widest">膽怯卻努力的共鳴</p>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">它是去年來到我身邊的。初次看見時，我便覺得它十分可愛；那種<span class="text-[#EAB308]">帶點膽怯卻依然努力生活</span>的形象，讓人不自覺地產生親近感。</p>
+                        <p class="text-[15px] leading-loose">它靜靜地存在於生活的一角，見證著一些平凡卻真實的時刻。每當目光落在它身上，我總會想起那份單純的喜歡。</p>
+                        <p class="text-[15px] leading-loose">它提醒自己，可以嘗試像它所象徵的樣子一樣，<span class="text-[#EAB308]">堅持去做真正想做的事情</span>。這是一份關於陪伴與自我期許的記錄。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <p class="text-[10px] text-gray-400 tracking-[0.2em]">—— 藏品由 歲月 寄存 ——</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-16 text-center opacity-30">
+        <p class="text-[9px] tracking-[0.3em]">SINCE 2024 | 十六號當舖</p>
+    </footer>
+
+    <script>
+        function switchView(view, updateHash = true) {
+            const pawnView = document.getElementById('view-pawn');
+            const exhibitView = document.getElementById('view-exhibit');
+            const navPawn = document.getElementById('nav-pawn');
+            const navExhibit = document.getElementById('nav-exhibit');
+
+            if (view === 'pawn') {
+                exhibitView.classList.add('hidden-view');
+                pawnView.classList.remove('hidden-view');
+                pawnView.classList.add('fade-in');
+                navPawn.classList.add('active');
+                navExhibit.classList.remove('active');
+                if(updateHash) history.replaceState(null, null, ' ');
+            } else {
+                pawnView.classList.add('hidden-view');
+                exhibitView.classList.remove('hidden-view');
+                exhibitView.classList.add('fade-in');
+                navExhibit.classList.add('active');
+                navPawn.classList.remove('active');
+                if(updateHash && !window.location.hash.includes('item')) {
+                    window.location.hash = 'exhibit';
+                }
+            }
+        }
+
+        function showItem(index, updateHash = true) {
+            // 確保在展覽視圖
+            switchView('exhibit', false);
+
+            // 隱藏所有藏品 (目前共 4 件)
+            for (let i = 1; i <= 4; i++) {
+                const item = document.getElementById(`item-${i}`);
+                const tab = document.getElementById(`tab-${i}`);
+                if (item) item.classList.add('hidden-view');
+                if (tab) tab.classList.remove('active');
+            }
+            // 顯示指定藏品
+            const targetItem = document.getElementById(`item-${index}`);
+            if (targetItem) {
+                targetItem.classList.remove('hidden-view');
+                targetItem.classList.add('fade-in');
+            }
+            const targetTab = document.getElementById(`tab-${index}`);
+            if (targetTab) targetTab.classList.add('active');
+
+            if(updateHash) window.location.hash = `item-${index}`;
+        }
+
+        // 處理 URL Hash 的核心邏輯
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash === '#exhibit') {
+                switchView('exhibit', false);
+            } else if (hash.startsWith('#item-')) {
+                const itemNum = hash.split('-')[1];
+                showItem(parseInt(itemNum), false);
+            } else {
+                switchView('pawn', false);
+            }
+        }
+
+        // 監聽網址變化與初始加載
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('DOMContentLoaded', handleRouting);
+    </script>
+</body>
+</html>
