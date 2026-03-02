@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>十六號當舖 | 歲月的餘溫</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;600&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #F9F7F2;
+            --color-primary: #8C7851;
+            --color-text: #4A443F;
+            --color-accent: #D4A373;
+            --color-border: #E5E1D8;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Noto Sans TC', sans-serif;
+            letter-spacing: 0.05em;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Noto Serif TC', serif; }
+
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(#8C7851 0.5px, transparent 0.5px);
+            background-size: 40px 40px;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 40px 100px -20px rgba(140, 120, 81, 0.08);
+        }
+
+        .nav-link {
+            position: relative;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: #A09A93;
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--color-primary);
+        }
+
+        .exhibit-card {
+            border: 1px solid var(--color-border);
+            padding: 3rem 2rem;
+            position: relative;
+            background: white;
+            overflow: hidden;
+            min-height: 480px;
+        }
+
+        .quote-mark {
+            font-size: 60px;
+            line-height: 1;
+            color: var(--color-primary);
+            opacity: 0.05;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        .item-tabs-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .item-tab {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            color: #A09A93;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .item-tab.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(140, 120, 81, 0.05);
+        }
+
+        .hidden-view { display: none; }
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-action {
+            display: inline-block;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-action:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-12 px-6">
+
+    <div class="bg-pattern"></div>
+
+    <!-- 頂部導航 -->
+    <nav class="flex gap-8 mb-16 z-10">
+        <button onclick="navigateTo('pawn')" id="nav-pawn" class="nav-link active">交付煩惱</button>
+        <button onclick="navigateTo('exhibit')" id="nav-exhibit" class="nav-link">藏品展覽</button>
+    </nav>
+
+    <main class="main-container w-full max-w-xl rounded-2xl p-8 md:p-12">
+        
+        <!-- 視圖 1: 交付煩惱 -->
+        <div id="view-pawn" class="fade-in">
+            <header class="text-center mb-12">
+                <h1 class="serif text-3xl font-light tracking-[0.3em] text-[#4A443F]">十六號當舖</h1>
+                <p class="text-[9px] uppercase tracking-[0.4em] text-[#8C7851] mt-2">The 16th Sanctuary</p>
+            </header>
+            
+            <div class="space-y-6">
+                <p class="serif text-center text-gray-500 italic">「有些東西，留著是負擔，當掉是解脫。」</p>
+                <div class="py-10 border-y border-[#F0EEE9] text-center">
+                    <p class="text-sm text-gray-500 mb-4">歡迎來到回憶的集散地。</p>
+                    <p class="text-xs text-gray-400 mb-8 px-4 leading-relaxed">在這裡，每一件舊物都值得被溫柔對待。<br>點擊下方按鈕，進入正式的典當空間。</p>
+                    <a href="https://no16pawnshop.vercel.app" target="_blank" class="btn-action px-10 py-3 text-xs tracking-[0.3em] rounded-full">推門入內</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 視圖 2: 藏品展覽 -->
+        <div id="view-exhibit" class="hidden-view">
+            <header class="mb-8 text-center">
+                <h2 class="serif text-2xl tracking-widest text-[#4A443F]">歲月的餘溫</h2>
+                <div class="w-8 h-[1px] bg-[#B8978E] mx-auto mt-4 mb-6"></div>
+                
+                <div class="item-tabs-container">
+                    <button onclick="navigateTo('item-1')" id="tab-1" class="item-tab">壹號：星夢樂園</button>
+                    <button onclick="navigateTo('item-2')" id="tab-2" class="item-tab">貳號：海綿寶寶</button>
+                    <button onclick="navigateTo('item-3')" id="tab-3" class="item-tab">參號：第一部電話</button>
+                    <button onclick="navigateTo('item-4')" id="tab-4" class="item-tab">肆號：Chiikawa</button>
+                </div>
+            </header>
+
+            <!-- 藏品內容 -->
+            <div id="item-1" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#B8978E] tracking-[0.3em] uppercase">Exhibition No. 01</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">「星夢樂園」遊戲卡及卡簿</h3>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">記錄着十年前小學校園裏一段很真實的熱潮——當時幾乎每個女同學都會喜歡、都會收。</p>
+                        <p class="text-[15px] leading-loose">對我而言，呢本卡簿唔單止係收藏，更似一本低調嘅童年日記。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item-2" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#D9A05B] tracking-[0.3em] uppercase">Exhibition No. 02</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">海綿寶寶公仔</h3>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">這是五歲那年爸爸送我的玩偶。沒想到它在那裡一待就是十五年，默默看著我從女孩變成大人。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item-3" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#94A3B8] tracking-[0.3em] uppercase">Exhibition No. 03</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">第一部智能電話</h3>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">大概小四的時候我擁有了我人生第一部智能電話，對我來說擁有手提電話是大的象徵，所以我感到十分驕傲。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="item-4" class="exhibit-card hidden-view">
+                <div class="quote-mark">“</div>
+                <div class="serif leading-relaxed text-[#5A544E] space-y-8 relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-[9px] text-[#EAB308] tracking-[0.3em] uppercase">Exhibition No. 04</span>
+                        <h3 class="text-lg tracking-widest text-[#8C7851] mt-2 mb-1">Chiikawa 公仔</h3>
+                    </div>
+                    <div class="space-y-6 text-justify px-2 md:px-6">
+                        <p class="text-[15px] leading-loose">它提醒自己，可以嘗試像它所象徵的樣子一樣，堅持去做真正想做的事情。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 核心導航邏輯：根據網址後的 # 來決定顯示哪一頁
+        function handleRouting() {
+            const hash = window.location.hash.replace('#', '') || 'pawn';
+            
+            // 重置所有視圖
+            document.getElementById('view-pawn').classList.add('hidden-view');
+            document.getElementById('view-exhibit').classList.add('hidden-view');
+            document.getElementById('nav-pawn').classList.remove('active');
+            document.getElementById('nav-exhibit').classList.remove('active');
+
+            if (hash === 'pawn') {
+                document.getElementById('view-pawn').classList.remove('hidden-view');
+                document.getElementById('nav-pawn').classList.add('active');
+            } else {
+                // 進入展覽視圖
+                document.getElementById('view-exhibit').classList.remove('hidden-view');
+                document.getElementById('nav-exhibit').classList.add('active');
+                
+                // 處理具體藏品
+                const itemIndex = hash.startsWith('item-') ? hash.split('-')[1] : '1';
+                showItemContent(itemIndex);
+            }
+        }
+
+        function showItemContent(index) {
+            // 隱藏所有卡片與標籤狀態
+            for (let i = 1; i <= 4; i++) {
+                const item = document.getElementById(`item-${i}`);
+                const tab = document.getElementById(`tab-${i}`);
+                if (item) item.classList.add('hidden-view');
+                if (tab) tab.classList.remove('active');
+            }
+            // 顯示目標
+            const targetItem = document.getElementById(`item-${index}`);
+            const targetTab = document.getElementById(`tab-${index}`);
+            if (targetItem) {
+                targetItem.classList.remove('hidden-view');
+                targetItem.classList.add('fade-in');
+            }
+            if (targetTab) targetTab.classList.add('active');
+        }
+
+        // 當使用者點擊按鈕時，只改變網址的 # 部分
+        function navigateTo(path) {
+            window.location.hash = path;
+        }
+
+        // 監聽網址變化
+        window.addEventListener('hashchange', handleRouting);
+        // 頁面載入時執行一次
+        window.onload = handleRouting;
+    </script>
+</body>
+</html>
